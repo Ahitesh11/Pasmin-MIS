@@ -1,0 +1,6 @@
+{
+  "name": "HOD Daily Staff Ranking System",
+  "description": "Enterprise daily employee ranking and weekly cycle submission system for HODs with Google Sheets backend integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

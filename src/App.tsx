@@ -14,7 +14,7 @@ import { HistoryModal } from './components/ranking/HistoryModal';
 import { NotificationToast } from './components/common/NotificationToast';
 import { LoginPage } from './components/auth/LoginPage';
 import { MonthlyRankingPage } from './components/monthly/MonthlyRankingPage';
-import { Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react'; 
 
 const MainLayout: React.FC = () => {
   const { activeTab, authUser, currentRole, isLoading, employees } = useApp();

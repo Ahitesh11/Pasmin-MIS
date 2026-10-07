@@ -58,7 +58,8 @@ export const MonthlyRankingPage: React.FC = () => {
       }),
     [year, monthIndex, daysInMonth]
   );
-  const elapsedDates = dates.filter(d => d.date <= today);
+  // Sundays are holidays: never rankable and not counted as expected work days
+  const elapsedDates = dates.filter(d => d.date <= today && d.weekday !== 0);
   const monthLabel = new Date(year, monthIndex - 1, 1).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
   const isCurrentMonth = month === toMonthKey(new Date());
 
@@ -296,7 +297,7 @@ export const MonthlyRankingPage: React.FC = () => {
                 </th>
                 {dates.map(d => {
                   const isToday = d.date === today;
-                  const clickable = canEdit && d.date <= today;
+                  const clickable = canEdit && d.date <= today && d.weekday !== 0;
                   return (
                     <th
                       key={d.date}
@@ -337,7 +338,8 @@ export const MonthlyRankingPage: React.FC = () => {
                       const rank = getRank(emp.employeeCode, d.date);
                       const isFuture = d.date > today;
                       const key = `${emp.employeeCode.toUpperCase()}|${d.date}`;
-                      const disabled = !canEdit || isFuture;
+                      const isHoliday = d.weekday === 0;
+                      const disabled = !canEdit || isFuture || isHoliday;
                       return (
                         <td
                           key={d.date}
@@ -351,7 +353,7 @@ export const MonthlyRankingPage: React.FC = () => {
                             className={`w-8 h-8 rounded-lg text-[12px] font-bold tabular-nums transition ${
                               rank !== undefined
                                 ? cellColor(rank)
-                                : isFuture
+                                : isFuture || isHoliday
                                   ? 'text-slate-200'
                                   : 'text-slate-300 border border-dashed border-slate-200'
                             } ${disabled ? 'cursor-default' : 'cursor-pointer hover:ring-2 hover:ring-indigo-400'}`}
@@ -361,7 +363,7 @@ export const MonthlyRankingPage: React.FC = () => {
                               <Loader2 className="w-3.5 h-3.5 animate-spin mx-auto" />
                             ) : rank !== undefined ? (
                               rank
-                            ) : isFuture ? (
+                            ) : isFuture || isHoliday ? (
                               ''
                             ) : (
                               '+'

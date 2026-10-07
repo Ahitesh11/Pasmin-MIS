@@ -807,6 +807,7 @@ function applyRankChanges(auth, hodName, changes) {
       else if (nameKey(row[8]) !== nameKey(hodName)) problem = "not your staff";
       else if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) problem = "bad date";
       else if (date > week.today) problem = "future date";
+      else if (weekDayNumber(date) === 7) problem = "Sunday is a holiday";
       else if (!clear && (isNaN(rank) || rank < 1 || rank > 10)) problem = "rank must be 1-10";
       if (problem) { skipped.push(code + " " + date + ": " + problem); return; }
 

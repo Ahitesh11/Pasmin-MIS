@@ -38,7 +38,6 @@ export const BulkRankModal: React.FC<BulkRankModalProps> = ({
   const [selected, setSelected] = useState<Set<string>>(() => new Set(staff.map(e => e.employeeCode)));
   const [rank, setRank] = useState<number | null>(null);
   const [onlyEmpty, setOnlyEmpty] = useState(true);
-  const [skipSundays, setSkipSundays] = useState(true);
   const [search, setSearch] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
@@ -48,11 +47,11 @@ export const BulkRankModal: React.FC<BulkRankModalProps> = ({
     const d = new Date(from + 'T00:00:00');
     const end = new Date(to + 'T00:00:00');
     while (d <= end) {
-      if (!(skipSundays && d.getDay() === 0)) list.push(toLocalDate(d));
+      if (d.getDay() !== 0) list.push(toLocalDate(d)); // Sundays are holidays
       d.setDate(d.getDate() + 1);
     }
     return list;
-  }, [from, to, skipSundays]);
+  }, [from, to]);
 
   const entries = useMemo<DailyRankEntry[]>(() => {
     if (rank === null) return [];
@@ -159,15 +158,7 @@ export const BulkRankModal: React.FC<BulkRankModalProps> = ({
               </label>
             </div>
             <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={skipSundays}
-                  onChange={e => setSkipSundays(e.target.checked)}
-                  className="w-4 h-4 accent-indigo-600"
-                />
-                <span className="font-medium text-slate-700">Skip Sundays</span>
-              </label>
+              <span className="text-xs font-semibold text-slate-500">Sundays are skipped (holiday)</span>
               <span className="text-xs font-semibold text-slate-500">
                 {dates.length} {dates.length === 1 ? 'day' : 'days'}
                 {dates.length > 0 && ` · ${formatDay(dates[0])} – ${formatDay(dates[dates.length - 1])}`}

@@ -12,7 +12,7 @@ import {
   ChevronRight,
   Star
 } from 'lucide-react';
-import { getDayLabel, formatScore } from '../../utils/rankingUtils';
+import { getDayLabel, formatScore, isHolidayDay } from '../../utils/rankingUtils';
 import { Employee, RankingDay } from '../../types';
 
 export const HodDashboard: React.FC = () => {
@@ -98,8 +98,8 @@ export const HodDashboard: React.FC = () => {
                 title="Change active evaluation day"
               >
                 {[1, 2, 3, 4, 5, 6, 7].map((d) => (
-                  <option key={d} value={d}>
-                    Day {d}
+                  <option key={d} value={d} disabled={isHolidayDay(d)}>
+                    {isHolidayDay(d) ? 'Sun (Holiday)' : `Day ${d}`}
                   </option>
                 ))}
               </select>

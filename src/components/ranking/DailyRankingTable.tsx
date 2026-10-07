@@ -13,7 +13,7 @@ import {
   UserCheck,
   Star
 } from 'lucide-react';
-import { getDayLabel } from '../../utils/rankingUtils';
+import { getDayLabel, isHolidayDay } from '../../utils/rankingUtils';
 import { Employee, RankingDay } from '../../types';
 
 export const DailyRankingTable: React.FC = () => {
@@ -82,17 +82,22 @@ export const DailyRankingTable: React.FC = () => {
           <div className="flex items-center gap-1 bg-slate-100/90 p-1 rounded-xl border border-slate-200 overflow-x-auto scrollbar-none shrink-0">
             {([1, 2, 3, 4, 5, 6, 7] as RankingDay[]).map((d) => {
               const isCurrent = rankingDay === d;
+              const holiday = isHolidayDay(d);
               return (
                 <button
                   key={d}
                   onClick={() => setRankingDay(d)}
-                  className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap ${
-                    isCurrent
-                      ? 'bg-sky-700 text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  disabled={holiday}
+                  title={holiday ? 'Sunday is a holiday' : undefined}
+                  className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all whitespace-nowrap ${
+                    holiday
+                      ? 'text-slate-300 line-through cursor-not-allowed'
+                      : isCurrent
+                        ? 'bg-sky-700 text-white shadow-xs cursor-pointer'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 cursor-pointer'
                   }`}
                 >
-                  Day {d}
+                  {holiday ? 'Sun · Off' : `Day ${d}`}
                 </button>
               );
             })}

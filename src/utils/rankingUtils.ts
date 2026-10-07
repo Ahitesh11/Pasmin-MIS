@@ -110,6 +110,10 @@ export function detectCurrentDay(cycleStartDay: number = 1): RankingDay {
   return dayIndex as RankingDay;
 }
 
+/** Sunday (Day 7) is a weekly holiday: no ranking can be given or changed */
+export const HOLIDAY_DAY: RankingDay = 7;
+export const isHolidayDay = (day: number) => day === HOLIDAY_DAY;
+
 /**
  * Returns human-readable day name for a ranking day
  */
@@ -121,7 +125,7 @@ export function getDayLabel(day: RankingDay): string {
     4: 'Day 4 (Thu)',
     5: 'Day 5 (Fri)',
     6: 'Day 6 (Sat)',
-    7: 'Day 7 (Sun)'
+    7: 'Day 7 (Sun · Holiday)'
   };
   return labels[day] || `Day ${day}`;
 }

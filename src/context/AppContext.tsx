@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, ReactNode } from 'react';
 import { Employee, WeeklyRecord, HODProfile, UserRole, RankingDay, AppSettings, FilterState, AuthUser } from '../types';
-import { detectCurrentDay, getCurrentWeekId, calculateRankAvg, getDateForWeekDay } from '../utils/rankingUtils';
+import { detectCurrentDay, getCurrentWeekId, calculateRankAvg, getDateForWeekDay, isHolidayDay } from '../utils/rankingUtils';
 import { apiService } from '../services/apiService';
 import { playError, playSuccess } from '../utils/sound';
 
@@ -384,6 +384,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // Rate an employee (saved directly to the Staff sheet)
   const rateEmployee = async (employeeCode: string, rank: number, day?: RankingDay): Promise<boolean> => {
     const targetDay = day || settings.currentRankingDay;
+    if (isHolidayDay(targetDay)) {
+      showNotification('Sunday is a holiday. Ranking cannot be given or changed.', 'info');
+      return false;
+    }
     const date = getDateForWeekDay(settings.currentWeekId, targetDay);
     const res = await apiService.saveRanking(settings.scriptUrl, employeeCode, currentHod.name, targetDay, rank, date);
 
@@ -468,6 +472,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   const openRatingModal = (employee: Employee, day?: RankingDay) => {
+    if (isHolidayDay(day || settings.currentRankingDay)) {
+      showNotification('Sunday is a holiday. Ranking cannot be given or changed.', 'info');
+      return;
+    }
     setRatingModal({ isOpen: true, employee, day: day || settings.currentRankingDay });
   };
 

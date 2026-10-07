@@ -161,7 +161,7 @@ export const AdminDashboard: React.FC = () => {
               className="mt-3 w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-3 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
             >
               {[1, 2, 3, 4, 5, 6, 7].map((d) => (
-                <option key={d} value={d} disabled={isHolidayDay(d)}>
+                <option key={d} value={d}>
                   {getDayLabel(d as RankingDay)}
                 </option>
               ))}

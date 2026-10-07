@@ -87,17 +87,16 @@ export const DailyRankingTable: React.FC = () => {
                 <button
                   key={d}
                   onClick={() => setRankingDay(d)}
-                  disabled={holiday}
-                  title={holiday ? 'Sunday is a holiday' : undefined}
-                  className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all whitespace-nowrap ${
-                    holiday
-                      ? 'text-slate-300 line-through cursor-not-allowed'
-                      : isCurrent
-                        ? 'bg-sky-700 text-white shadow-xs cursor-pointer'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 cursor-pointer'
+                  title={holiday ? 'Sunday is a holiday: view only' : undefined}
+                  className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all whitespace-nowrap cursor-pointer ${
+                    isCurrent
+                      ? holiday ? 'bg-slate-500 text-white shadow-xs' : 'bg-sky-700 text-white shadow-xs'
+                      : holiday
+                        ? 'text-slate-400 hover:text-slate-600 hover:bg-slate-200/60'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
-                  {holiday ? 'Sun · Off' : `Day ${d}`}
+                  {holiday ? 'Sun · Holiday' : `Day ${d}`}
                 </button>
               );
             })}
@@ -361,14 +360,16 @@ export const DailyRankingTable: React.FC = () => {
                 {/* Fast Action Button */}
                 <button
                   onClick={() => openRatingModal(emp, rankingDay)}
-                  className={`w-full py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs ${
+                  disabled={isHolidayDay(rankingDay)}
+                  title={isHolidayDay(rankingDay) ? 'Sunday is a holiday' : undefined}
+                  className={`w-full py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none ${
                     isRated
                       ? 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'
                       : 'bg-gradient-to-r from-sky-600 to-indigo-700 hover:from-sky-700 hover:to-indigo-800 text-white shadow-sky-200'
                   }`}
                 >
                   <Star className={`w-3.5 h-3.5 ${isRated ? 'text-amber-500 fill-amber-500' : 'text-white'}`} />
-                  <span>{isRated ? `Change Score (${todayScore}/10)` : 'Give Daily Ranking (1-10)'}</span>
+                  <span>{isHolidayDay(rankingDay) ? 'Sunday · Holiday' : isRated ? `Change Score (${todayScore}/10)` : 'Give Daily Ranking (1-10)'}</span>
                 </button>
               </div>
             );
@@ -491,13 +492,15 @@ export const DailyRankingTable: React.FC = () => {
                     <td className="py-3 px-4 text-center">
                       <button
                         onClick={() => openRatingModal(emp, rankingDay)}
-                        className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                        disabled={isHolidayDay(rankingDay)}
+                        title={isHolidayDay(rankingDay) ? 'Sunday is a holiday' : undefined}
+                        className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none ${
                           isRated
                             ? 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
                             : 'bg-sky-700 hover:bg-sky-800 text-white shadow-xs'
                         }`}
                       >
-                        {isRated ? 'Edit Score' : 'Give Score'}
+                        {isHolidayDay(rankingDay) ? 'Holiday' : isRated ? 'Edit Score' : 'Give Score'}
                       </button>
                     </td>
                   </tr>

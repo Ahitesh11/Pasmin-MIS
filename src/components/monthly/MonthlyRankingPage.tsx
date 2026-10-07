@@ -363,7 +363,9 @@ export const MonthlyRankingPage: React.FC = () => {
                               <Loader2 className="w-3.5 h-3.5 animate-spin mx-auto" />
                             ) : rank !== undefined ? (
                               rank
-                            ) : isFuture || isHoliday ? (
+                            ) : isHoliday ? (
+                              <span className="text-[9px] font-semibold text-slate-300">Off</span>
+                            ) : isFuture ? (
                               ''
                             ) : (
                               '+'

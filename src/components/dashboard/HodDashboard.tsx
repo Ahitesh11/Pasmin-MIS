@@ -98,7 +98,7 @@ export const HodDashboard: React.FC = () => {
                 title="Change active evaluation day"
               >
                 {[1, 2, 3, 4, 5, 6, 7].map((d) => (
-                  <option key={d} value={d} disabled={isHolidayDay(d)}>
+                  <option key={d} value={d}>
                     {isHolidayDay(d) ? 'Sun (Holiday)' : `Day ${d}`}
                   </option>
                 ))}
@@ -288,13 +288,15 @@ export const HodDashboard: React.FC = () => {
 
                   <button
                     onClick={() => openRatingModal(emp, rankingDay)}
-                    className={`px-3 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    disabled={isHolidayDay(rankingDay)}
+                    title={isHolidayDay(rankingDay) ? 'Sunday is a holiday' : undefined}
+                    className={`px-3 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none ${
                       isRated
                         ? 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                         : 'bg-sky-700 hover:bg-sky-800 text-white shadow-xs'
                     }`}
                   >
-                    {isRated ? 'Edit' : 'Rate'}
+                    {isHolidayDay(rankingDay) ? 'Holiday' : isRated ? 'Edit' : 'Rate'}
                   </button>
                 </div>
               </div>
@@ -356,13 +358,15 @@ export const HodDashboard: React.FC = () => {
                     <td className="py-3 px-4 text-center">
                       <button
                         onClick={() => openRatingModal(emp, rankingDay)}
-                        className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+                        disabled={isHolidayDay(rankingDay)}
+                        title={isHolidayDay(rankingDay) ? 'Sunday is a holiday' : undefined}
+                        className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none ${
                           isRated
                             ? 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
                             : 'bg-sky-700 hover:bg-sky-800 text-white shadow-xs'
                         }`}
                       >
-                        {isRated ? 'Edit Rank' : 'Give Rank'}
+                        {isHolidayDay(rankingDay) ? 'Holiday' : isRated ? 'Edit Rank' : 'Give Rank'}
                       </button>
                     </td>
                   </tr>

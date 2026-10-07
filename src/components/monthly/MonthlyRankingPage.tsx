@@ -29,6 +29,10 @@ const cellColor = (rank: number) => {
   return 'bg-rose-100 text-rose-700';
 };
 
+/** Score as a percentage: total of ranks / (days ranked x 10) x 100, e.g. 70/70 -> 100% */
+const percent = (nums: number[]) =>
+  nums.length ? Math.round((nums.reduce((a, b) => a + b, 0) / (nums.length * 10)) * 100) : null;
+
 const avg = (nums: number[]) =>
   nums.length ? Math.round((nums.reduce((a, b) => a + b, 0) / nums.length) * 10) / 10 : null;
 
@@ -162,7 +166,7 @@ export const MonthlyRankingPage: React.FC = () => {
   const allRanks = staff.flatMap(e =>
     dates.map(d => getRank(e.employeeCode, d.date)).filter((r): r is number => r !== undefined)
   );
-  const monthAvg = avg(allRanks);
+  const monthPct = percent(allRanks);
   const completion = expected > 0 ? Math.round((given / expected) * 100) : 0;
 
   const card = 'bg-white rounded-2xl border border-slate-200/80 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.12)]';
@@ -230,7 +234,7 @@ export const MonthlyRankingPage: React.FC = () => {
             { label: 'Staff', value: String(staff.length), cls: 'text-slate-900' },
             { label: 'Ranks Given', value: `${given}/${expected}`, cls: 'text-emerald-600' },
             { label: 'Completion', value: `${completion}%`, cls: 'text-indigo-600' },
-            { label: 'Month Avg', value: monthAvg !== null ? `${monthAvg}/10` : '—', cls: 'text-blue-600' }
+            { label: 'Month Avg', value: monthPct !== null ? `${monthPct}%` : '—', cls: 'text-blue-600' }
           ].map(k => (
             <div key={k.label} className="rounded-xl border border-slate-200/80 bg-slate-50/50 px-4 py-3">
               <div className="text-xs font-semibold text-slate-500">{k.label}</div>
@@ -317,7 +321,7 @@ export const MonthlyRankingPage: React.FC = () => {
                     </th>
                   );
                 })}
-                <th className="sticky right-0 z-30 bg-slate-50 border-b border-l border-slate-200 px-3 py-2 text-center text-[11px] font-bold uppercase tracking-wider text-slate-500 min-w-[72px]">
+                <th className="sticky right-0 z-30 bg-slate-50 border-b border-l border-slate-200 px-3 py-2 text-center text-[11px] font-bold uppercase tracking-wider text-slate-500 min-w-[88px]">
                   Avg
                 </th>
               </tr>
@@ -327,7 +331,8 @@ export const MonthlyRankingPage: React.FC = () => {
                 const ranks = dates
                   .map(d => getRank(emp.employeeCode, d.date))
                   .filter((r): r is number => r !== undefined);
-                const empAvg = avg(ranks);
+                const empPct = percent(ranks);
+                const empTotal = ranks.reduce((a, b) => a + b, 0);
                 return (
                   <tr key={emp.employeeCode} className="group">
                     <td className="sticky left-0 z-10 bg-white group-hover:bg-slate-50 border-b border-r border-slate-100 px-4 py-2">
@@ -375,8 +380,15 @@ export const MonthlyRankingPage: React.FC = () => {
                       );
                     })}
                     <td className="sticky right-0 z-10 bg-white group-hover:bg-slate-50 border-b border-l border-slate-100 px-3 py-2 text-center">
-                      <div className="text-sm font-extrabold text-blue-600 tabular-nums">{empAvg !== null ? empAvg : '—'}</div>
-                      <div className="text-[10px] text-slate-400">{ranks.length} days</div>
+                      <div
+                        className="text-sm font-extrabold text-blue-600 tabular-nums"
+                        title={empPct !== null ? `${empTotal} of ${ranks.length * 10} points (avg ${avg(ranks)}/10)` : undefined}
+                      >
+                        {empPct !== null ? `${empPct}%` : '—'}
+                      </div>
+                      <div className="text-[10px] text-slate-400 tabular-nums">
+                        {ranks.length ? `${empTotal}/${ranks.length * 10} · ${ranks.length}d` : '0 days'}
+                      </div>
                     </td>
                   </tr>
                 );

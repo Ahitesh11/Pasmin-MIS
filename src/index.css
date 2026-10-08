@@ -57,3 +57,20 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #9aa0c3;
 }
+
+/*
+ * Data tables: the table box stays put, only its rows scroll,
+ * and the column headings stay visible at the top.
+ */
+.table-scroll {
+  overflow: auto;
+  max-height: calc(100dvh - 260px);
+  overscroll-behavior: contain;
+}
+.table-scroll thead th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background-color: #f8fafc;
+  box-shadow: inset 0 -1px 0 #e2e8f0;
+}

@@ -48,8 +48,8 @@ export const HodDashboard: React.FC = () => {
 
   return (
     <div className="space-y-5 pb-16 md:pb-6">
-      {/* 1. Header Section */}
-      <div className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs">
+      {/* 1. Header Section (stays on top while scrolling) */}
+      <div className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs md:sticky md:top-0 md:z-20">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
@@ -305,7 +305,7 @@ export const HodDashboard: React.FC = () => {
         </div>
 
         {/* Desktop View: Table */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden md:block table-scroll">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
               <tr>

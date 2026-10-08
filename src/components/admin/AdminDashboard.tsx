@@ -95,7 +95,7 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="space-y-8 pb-20 md:pb-8">
       {/* 1. Master console header + KPIs */}
-      <section className={`${card} p-6 sm:p-8`}>
+      <section className={`${card} p-6 sm:p-8 md:sticky md:top-0 md:z-20`}>
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-5">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-full px-3 py-1">
@@ -120,8 +120,11 @@ export const AdminDashboard: React.FC = () => {
             Refresh Data
           </button>
         </div>
+      </section>
 
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      {/* KPIs */}
+      <section className={`${card} p-5 sm:p-6`}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
           {stats.map(s => (
             <div key={s.label} className="rounded-2xl border border-slate-200/80 bg-slate-50/50 p-5">
               <div className="flex items-center justify-between">
@@ -213,7 +216,7 @@ export const AdminDashboard: React.FC = () => {
           </span>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="table-scroll">
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-50/80 text-[11px] font-bold uppercase tracking-wider text-slate-500">
               <tr>
@@ -331,7 +334,7 @@ export const AdminDashboard: React.FC = () => {
             </button>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="table-scroll">
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold">
                 <tr>

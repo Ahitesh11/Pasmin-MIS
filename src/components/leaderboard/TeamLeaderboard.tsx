@@ -28,8 +28,8 @@ export const TeamLeaderboard: React.FC = () => {
 
   return (
     <div className="space-y-5 pb-16 md:pb-6">
-      {/* 1. Header Banner */}
-      <div className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs">
+      {/* 1. Header Banner (stays on top while scrolling) */}
+      <div className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs md:sticky md:top-0 md:z-20">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-1.5 text-xs text-amber-700 font-bold mb-1">
@@ -75,9 +75,11 @@ export const TeamLeaderboard: React.FC = () => {
           )}
         </div>
 
-        {/* 2. Top 3 Podium Highlights (if available) */}
+      </div>
+
+      {/* 2. Top 3 Podium Highlights (if available) */}
         {topThree.length >= 2 && (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5 pt-5 border-t border-slate-100">
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* Rank 2 */}
             {topThree[1] && (
               <div className="order-2 sm:order-1 bg-slate-50/80 rounded-2xl p-4 border border-slate-200 flex items-center justify-between shadow-2xs">
@@ -156,7 +158,6 @@ export const TeamLeaderboard: React.FC = () => {
             )}
           </div>
         )}
-      </div>
 
       {/* 3. Full Leaderboard List */}
       <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden">
@@ -216,7 +217,7 @@ export const TeamLeaderboard: React.FC = () => {
         </div>
 
         {/* Desktop View: Table */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden md:block table-scroll">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
               <tr>

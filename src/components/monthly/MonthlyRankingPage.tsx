@@ -173,8 +173,8 @@ export const MonthlyRankingPage: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-20 md:pb-8">
-      {/* Header */}
-      <section className={`${card} p-5 sm:p-6`}>
+      {/* Header (stays on top while scrolling) */}
+      <section className={`${card} p-5 sm:p-6 md:sticky md:top-0 md:z-20`}>
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
@@ -228,8 +228,11 @@ export const MonthlyRankingPage: React.FC = () => {
             </button>
           </div>
         </div>
+      </section>
 
-        <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-3">
+      {/* KPIs */}
+      <section className={`${card} p-4 sm:p-5`}>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[
             { label: 'Staff', value: String(staff.length), cls: 'text-slate-900' },
             { label: 'Ranks Given', value: `${given}/${expected}`, cls: 'text-emerald-600' },

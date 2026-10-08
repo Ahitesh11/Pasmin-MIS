@@ -112,8 +112,8 @@ export const WeeklyRecordsPage: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-16 md:pb-6">
-      {/* 1. Header Banner */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-xs">
+      {/* 1. Header Banner (stays on top while scrolling) */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-xs md:sticky md:top-0 md:z-20">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
@@ -155,8 +155,10 @@ export const WeeklyRecordsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Cycle Summary Metrics */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-5 border-t border-slate-100 text-xs">
+      </div>
+
+      {/* Cycle Summary Metrics */}
+        <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           <div className="bg-slate-50 p-3 rounded-lg border border-slate-200/60">
             <span className="text-slate-500 block text-[11px]">Total Eligible Staff</span>
             <span className="text-lg font-bold font-mono text-slate-900 tabular-nums">
@@ -185,7 +187,6 @@ export const WeeklyRecordsPage: React.FC = () => {
             </span>
           </div>
         </div>
-      </div>
 
       {/* 2. Sub-Tabs: Current Week Review vs Historical Archive */}
       <div className="flex items-center gap-2 border-b border-slate-200">
@@ -250,7 +251,7 @@ export const WeeklyRecordsPage: React.FC = () => {
               </span>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="table-scroll">
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold">
                   <tr>
@@ -383,7 +384,7 @@ export const WeeklyRecordsPage: React.FC = () => {
               </span>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="table-scroll">
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold">
                   <tr>
